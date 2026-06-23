@@ -1,0 +1,65 @@
+[project]
+name = "litigation-command-center"
+version = "0.1.0"
+description = "Enterprise litigation operations and case intelligence platform"
+requires-python = ">=3.12"
+
+dependencies = [
+  "fastapi[standard]>=0.115",
+  "uvicorn[standard]>=0.34",
+  "sqlalchemy[asyncio]>=2.0",
+  "asyncpg>=0.30",
+  "alembic>=1.14",
+  "redis[hiredis]>=5.0",
+  "celery[redis]>=5.4",
+  "httpx[http2]>=0.28",
+  "pydantic>=2.10",
+  "pydantic-settings>=2.7",
+  "structlog>=24.4",
+  "pyseto>=1.8",
+  "passlib[bcrypt]>=1.7",
+  "prometheus-client>=0.21",
+  "prometheus-fastapi-instrumentator>=7.0",
+  "orjson>=3.10",
+  "tenacity>=9.0",
+  "slowapi>=0.1.9",
+  "python-dateutil>=2.9",
+  "networkx>=3.4",
+  "python-multipart>=0.0.18",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3",
+  "pytest-asyncio>=0.24",
+  "pytest-cov>=6.0",
+  "httpx>=0.28",
+  "respx>=0.22",
+  "faker>=33.0",
+  "ruff>=0.8",
+  "mypy>=1.13",
+  "pre-commit>=4.0",
+  "aiosqlite>=0.20",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "N", "UP", "ANN", "B", "A", "SIM", "TCH"]
+ignore = ["ANN101", "ANN102", "ANN401"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "--cov=src --cov-report=term-missing"
+
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
