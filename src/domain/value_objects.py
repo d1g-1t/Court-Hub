@@ -1,0 +1,192 @@
+from __future__ import annotations
+
+from enum import StrEnum, unique
+
+
+@unique
+class MatterStatus(StrEnum):
+    OPEN = "OPEN"
+    IN_PROGRESS = "IN_PROGRESS"
+    ON_HOLD = "ON_HOLD"
+    SETTLED = "SETTLED"
+    WON = "WON"
+    LOST = "LOST"
+    CLOSED = "CLOSED"
+
+
+@unique
+class MatterType(StrEnum):
+    CIVIL = "CIVIL"
+    COMMERCIAL = "COMMERCIAL"
+    ADMINISTRATIVE = "ADMINISTRATIVE"
+    BANKRUPTCY = "BANKRUPTCY"
+    TAX = "TAX"
+    LABOR = "LABOR"
+    IP = "IP"
+    CRIMINAL = "CRIMINAL"
+    OTHER = "OTHER"
+
+
+@unique
+class CourtSystem(StrEnum):
+    ARBITRAZH = "ARBITRAZH"
+    GENERAL_JURISDICTION = "GENERAL_JURISDICTION"
+    SUPREME_COURT = "SUPREME_COURT"
+    CONSTITUTIONAL_COURT = "CONSTITUTIONAL_COURT"
+    CASSATION = "CASSATION"
+    APPEAL = "APPEAL"
+    OTHER = "OTHER"
+
+
+@unique
+class RoleInCase(StrEnum):
+    CLAIMANT = "CLAIMANT"
+    RESPONDENT = "RESPONDENT"
+    THIRD_PARTY = "THIRD_PARTY"
+
+
+@unique
+class RiskLevel(StrEnum):
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    CRITICAL = "CRITICAL"
+
+
+@unique
+class DeadlineStatus(StrEnum):
+    OPEN = "OPEN"
+    COMPLETED = "COMPLETED"
+    OVERDUE = "OVERDUE"
+    ESCALATED = "ESCALATED"
+    CANCELLED = "CANCELLED"
+
+
+@unique
+class DeadlinePriority(StrEnum):
+    LOW = "LOW"
+    NORMAL = "NORMAL"
+    HIGH = "HIGH"
+    URGENT = "URGENT"
+
+
+@unique
+class HearingStatus(StrEnum):
+    SCHEDULED = "SCHEDULED"
+    IN_PROGRESS = "IN_PROGRESS"
+    COMPLETED = "COMPLETED"
+    POSTPONED = "POSTPONED"
+    CANCELLED = "CANCELLED"
+
+
+@unique
+class EvidenceType(StrEnum):
+    DOCUMENT = "DOCUMENT"
+    WITNESS_STATEMENT = "WITNESS_STATEMENT"
+    EXPERT_REPORT = "EXPERT_REPORT"
+    CORRESPONDENCE = "CORRESPONDENCE"
+    FINANCIAL_RECORD = "FINANCIAL_RECORD"
+    PHOTO_VIDEO = "PHOTO_VIDEO"
+    ELECTRONIC = "ELECTRONIC"
+    OTHER = "OTHER"
+
+
+@unique
+class PrivilegeLevel(StrEnum):
+    STANDARD = "STANDARD"
+    ATTORNEY_CLIENT = "ATTORNEY_CLIENT"
+    WORK_PRODUCT = "WORK_PRODUCT"
+    CONFIDENTIAL = "CONFIDENTIAL"
+
+
+@unique
+class AlertSeverity(StrEnum):
+    INFO = "INFO"
+    WARNING = "WARNING"
+    HIGH = "HIGH"
+    CRITICAL = "CRITICAL"
+
+
+@unique
+class AlertType(StrEnum):
+    DEADLINE_WARNING = "DEADLINE_WARNING"
+    DEADLINE_OVERDUE = "DEADLINE_OVERDUE"
+    HEARING_APPROACHING = "HEARING_APPROACHING"
+    BUDGET_EXCEEDED = "BUDGET_EXCEEDED"
+    AI_REVIEW_NEEDED = "AI_REVIEW_NEEDED"
+    ESCALATION = "ESCALATION"
+
+
+@unique
+class BudgetEntryType(StrEnum):
+    BUDGET = "BUDGET"
+    INVOICE = "INVOICE"
+    EXPENSE = "EXPENSE"
+    SETTLEMENT = "SETTLEMENT"
+
+
+@unique
+class AIPipelineType(StrEnum):
+    CASE_SUMMARY = "CASE_SUMMARY"
+    CHRONOLOGY_BUILDER = "CHRONOLOGY_BUILDER"
+    INCONSISTENCY_DETECTION = "INCONSISTENCY_DETECTION"
+    HEARING_MEMO = "HEARING_MEMO"
+    RISK_REVIEW = "RISK_REVIEW"
+
+
+@unique
+class AuditEventType(StrEnum):
+    CREATED = "CREATED"
+    UPDATED = "UPDATED"
+    STATUS_CHANGED = "STATUS_CHANGED"
+    CLOSED = "CLOSED"
+    DELETED = "DELETED"
+    AI_RUN_STARTED = "AI_RUN_STARTED"
+    AI_RUN_COMPLETED = "AI_RUN_COMPLETED"
+    DEADLINE_COMPLETED = "DEADLINE_COMPLETED"
+    DEADLINE_ESCALATED = "DEADLINE_ESCALATED"
+    EVIDENCE_UPLOADED = "EVIDENCE_UPLOADED"
+    COUNSEL_ASSIGNED = "COUNSEL_ASSIGNED"
+    COUNSEL_ENDED = "COUNSEL_ENDED"
+    ALERT_ACKNOWLEDGED = "ALERT_ACKNOWLEDGED"
+
+
+@unique
+class NoteType(StrEnum):
+    GENERAL = "GENERAL"
+    HEARING_PREP = "HEARING_PREP"
+    STRATEGY = "STRATEGY"
+    RISK_ASSESSMENT = "RISK_ASSESSMENT"
+    CLIENT_COMMUNICATION = "CLIENT_COMMUNICATION"
+
+
+@unique
+class IssueStatus(StrEnum):
+    OPEN = "OPEN"
+    IN_PROGRESS = "IN_PROGRESS"
+    RESOLVED = "RESOLVED"
+    CLOSED = "CLOSED"
+
+
+@unique
+class IssueSeverity(StrEnum):
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    CRITICAL = "CRITICAL"
+
+
+@unique
+class ClaimStatus(StrEnum):
+    OPEN = "OPEN"
+    PARTIALLY_SATISFIED = "PARTIALLY_SATISFIED"
+    SATISFIED = "SATISFIED"
+    DISMISSED = "DISMISSED"
+
+
+@unique
+class DefenseStatus(StrEnum):
+    ACTIVE = "ACTIVE"
+    WITHDRAWN = "WITHDRAWN"
+    ACCEPTED = "ACCEPTED"
+    REJECTED = "REJECTED"
