@@ -7,10 +7,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.application.dto import CreateDeadlineRequest, UpdateDeadlineRequest
 from src.domain.exceptions import NotFoundError
-from src.domain.services import build_audit_event, evaluate_deadline_risk
+from src.domain.services import evaluate_deadline_risk
 from src.domain.value_objects import AuditEventType, DeadlineStatus
 from src.domain.entities import ProceduralDeadline
-from src.infrastructure.database.models import AlertModel, DeadlineModel
+from src.infrastructure.database.models import AlertModel, AuditEventModel, DeadlineModel
 from src.infrastructure.database.repositories import (
     AlertSQLRepository,
     AuditSQLRepository,
@@ -67,12 +67,12 @@ async def create_deadline(
 
     audit_repo = AuditSQLRepository(session)
     await audit_repo.create(
-        build_audit_event(
+        AuditEventModel(
             tenant_id=tenant_id,
             actor_user_id=user_id,
             resource_type="deadline",
             resource_id=deadline.id,
-            event_type=AuditEventType.CREATED,
+            event_type=AuditEventType.CREATED.value,
             payload={"title": data.title, "due_at": data.due_at.isoformat()},
         )
     )
@@ -123,12 +123,12 @@ async def complete_deadline(
 
     audit_repo = AuditSQLRepository(session)
     await audit_repo.create(
-        build_audit_event(
+        AuditEventModel(
             tenant_id=tenant_id,
             actor_user_id=user_id,
             resource_type="deadline",
             resource_id=deadline_id,
-            event_type=AuditEventType.DEADLINE_COMPLETED,
+            event_type=AuditEventType.DEADLINE_COMPLETED.value,
         )
     )
     return dl
