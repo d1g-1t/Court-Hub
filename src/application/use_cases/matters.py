@@ -8,10 +8,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.application.dto import CreateMatterRequest, UpdateMatterRequest
 from src.domain.exceptions import DuplicateError, NotFoundError
-from src.domain.services import build_audit_event, validate_matter_transition
+from src.domain.services import validate_matter_transition
 from src.domain.value_objects import AuditEventType, MatterStatus
 from src.infrastructure.cache.service import CacheService
-from src.infrastructure.database.models import MatterModel
+from src.infrastructure.database.models import AuditEventModel, MatterModel
 from src.infrastructure.database.repositories import (
     AuditSQLRepository,
     MatterSQLRepository,
@@ -57,12 +57,12 @@ async def create_matter(
 
     audit_repo = AuditSQLRepository(session)
     await audit_repo.create(
-        build_audit_event(
+        AuditEventModel(
             tenant_id=tenant_id,
             actor_user_id=user_id,
             resource_type="matter",
             resource_id=matter.id,
-            event_type=AuditEventType.CREATED,
+            event_type=AuditEventType.CREATED.value,
             payload={"title": data.title, "matter_type": data.matter_type},
         )
     )
@@ -134,12 +134,12 @@ async def update_matter(
         else AuditEventType.UPDATED
     )
     await audit_repo.create(
-        build_audit_event(
+        AuditEventModel(
             tenant_id=tenant_id,
             actor_user_id=user_id,
             resource_type="matter",
             resource_id=matter_id,
-            event_type=event_type,
+            event_type=event_type.value,
             payload=update_data,
         )
     )
@@ -170,12 +170,12 @@ async def close_matter(
 
     audit_repo = AuditSQLRepository(session)
     await audit_repo.create(
-        build_audit_event(
+        AuditEventModel(
             tenant_id=tenant_id,
             actor_user_id=user_id,
             resource_type="matter",
             resource_id=matter_id,
-            event_type=AuditEventType.CLOSED,
+            event_type=AuditEventType.CLOSED.value,
         )
     )
 
