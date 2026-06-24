@@ -6,9 +6,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.application.dto import CreateHearingRequest, UpdateHearingRequest
 from src.domain.exceptions import NotFoundError
-from src.domain.services import build_audit_event
 from src.domain.value_objects import AuditEventType, HearingStatus
-from src.infrastructure.database.models import HearingModel
+from src.infrastructure.database.models import AuditEventModel, HearingModel
 from src.infrastructure.database.repositories import (
     AuditSQLRepository,
     HearingSQLRepository,
@@ -40,12 +39,12 @@ async def create_hearing(
 
     audit_repo = AuditSQLRepository(session)
     await audit_repo.create(
-        build_audit_event(
+        AuditEventModel(
             tenant_id=tenant_id,
             actor_user_id=user_id,
             resource_type="hearing",
             resource_id=hearing.id,
-            event_type=AuditEventType.CREATED,
+            event_type=AuditEventType.CREATED.value,
             payload={"hearing_type": data.hearing_type},
         )
     )
@@ -96,12 +95,12 @@ async def record_outcome(
 
     audit_repo = AuditSQLRepository(session)
     await audit_repo.create(
-        build_audit_event(
+        AuditEventModel(
             tenant_id=tenant_id,
             actor_user_id=user_id,
             resource_type="hearing",
             resource_id=hearing_id,
-            event_type=AuditEventType.STATUS_CHANGED,
+            event_type=AuditEventType.STATUS_CHANGED.value,
             payload={"status": "COMPLETED", "outcome_summary": outcome_summary},
         )
     )
