@@ -45,6 +45,8 @@ class InvalidStateTransitionError(DomainError):
 
 
 class DeadlinePolicyViolation(DomainError):
+    pass
 
 
 class AIOutputError(DomainError):
+    pass
