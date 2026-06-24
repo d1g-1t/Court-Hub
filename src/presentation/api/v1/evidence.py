@@ -15,7 +15,7 @@ from src.presentation.deps import AuthDep, SessionDep
 router = APIRouter()
 
 
-@router.post("/matters/{matter_id}/upload", response_model=EvidenceResponse, status_code=201)
+@router.post("/matters/{matter_id}", response_model=EvidenceResponse, status_code=201)
 async def upload(
     matter_id: UUID,
     file: UploadFile,
