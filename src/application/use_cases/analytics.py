@@ -135,7 +135,9 @@ async def get_audit_timeline(
     matter_id: UUID,
     *,
     session: AsyncSession,
+    limit: int = 50,
+    offset: int = 0,
 ):
     """Return audit trail for a specific matter."""
     repo = AuditSQLRepository(session)
-    return await repo.list_by_resource("matter", matter_id, limit=200)
+    return await repo.list_by_resource("matter", matter_id, limit=limit, offset=offset)

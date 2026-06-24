@@ -39,7 +39,7 @@ async def deadline_risk(
     days: int = Query(7, ge=1, le=90),
 ) -> DeadlineRiskResponse:
     data = await get_deadline_risk(
-        tenant_id=auth.tenant_id, session=session, days=days,
+        tenant_id=auth.tenant_id, session=session,
     )
     return DeadlineRiskResponse.model_validate(data)
 
