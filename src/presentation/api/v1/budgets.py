@@ -5,14 +5,14 @@ from uuid import UUID
 from fastapi import APIRouter, Query
 
 from src.application.dto import (
-    BudgetEntryRequest,
     BudgetEntryResponse,
+    CreateBudgetEntryRequest,
     SpendAnalyticsResponse,
 )
 from src.application.use_cases.crud import (
     create_budget_entry,
     get_spend_analytics,
-    list_matter_budget_entries,
+    list_matter_budget,
 )
 from src.presentation.deps import AuthDep, SessionDep
 
@@ -26,7 +26,7 @@ router = APIRouter()
 )
 async def create_entry(
     matter_id: UUID,
-    body: BudgetEntryRequest,
+    body: CreateBudgetEntryRequest,
     auth: AuthDep,
     session: SessionDep,
 ) -> BudgetEntryResponse:
@@ -45,7 +45,7 @@ async def list_entries(
     limit: int = Query(50, ge=1, le=200),
     offset: int = Query(0, ge=0),
 ) -> list[BudgetEntryResponse]:
-    items = await list_matter_budget_entries(
+    items = await list_matter_budget(
         matter_id, session=session, limit=limit, offset=offset,
     )
     return [BudgetEntryResponse.model_validate(e) for e in items]
