@@ -37,12 +37,20 @@ class _FakeRedis:
     async def set(self, key: str, value: Any, ex: int | None = None) -> None:
         self._store[key] = value
 
-    async def delete(self, key: str) -> None:
-        self._store.pop(key, None)
+    async def delete(self, *keys: str) -> None:
+        for key in keys:
+            self._store.pop(key, None)
 
     async def keys(self, pattern: str) -> list[str]:
         import fnmatch
         return [k for k in self._store if fnmatch.fnmatch(k, pattern)]
+
+    async def scan(self, cursor: int = 0, match: str | None = None, count: int = 100) -> tuple[int, list[str]]:
+        import fnmatch
+        keys = list(self._store.keys())
+        if match:
+            keys = [k for k in keys if fnmatch.fnmatch(k, match)]
+        return (0, keys)
 
     async def ping(self) -> bool:
         return True
@@ -136,6 +144,9 @@ async def app(
 ) -> FastAPI:
     from src.infrastructure.cache.service import CacheService
     from src.main import create_app
+    import src.presentation.deps as deps_mod
+
+    deps_mod._settings = test_settings
 
     _app = create_app()
 
