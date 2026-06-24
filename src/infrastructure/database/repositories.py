@@ -313,7 +313,7 @@ class AuditSQLRepository(_BaseSQLRepo[AuditEventModel]):
     model = AuditEventModel
 
     async def list_by_resource(
-        self, resource_type: str, resource_id: UUID, *, limit: int = 100
+        self, resource_type: str, resource_id: UUID, *, limit: int = 100, offset: int = 0
     ) -> list[AuditEventModel]:
         stmt = (
             select(AuditEventModel)
@@ -322,6 +322,7 @@ class AuditSQLRepository(_BaseSQLRepo[AuditEventModel]):
                 AuditEventModel.resource_id == resource_id,
             )
             .order_by(AuditEventModel.created_at.desc())
+            .offset(offset)
             .limit(limit)
         )
         result = await self.session.execute(stmt)
