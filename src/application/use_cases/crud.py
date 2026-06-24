@@ -18,10 +18,10 @@ from src.application.dto import (
     UpdateIssueRequest,
 )
 from src.domain.exceptions import NotFoundError
-from src.domain.services import build_audit_event
 from src.domain.value_objects import AuditEventType
 from src.infrastructure.database.models import (
     AlertModel,
+    AuditEventModel,
     BudgetEntryModel,
     ClaimModel,
     DefenseModel,
@@ -78,12 +78,12 @@ async def upload_evidence(
 
     audit_repo = AuditSQLRepository(session)
     await audit_repo.create(
-        build_audit_event(
+        AuditEventModel(
             tenant_id=tenant_id,
             actor_user_id=user_id,
             resource_type="evidence",
             resource_id=evidence.id,
-            event_type=AuditEventType.EVIDENCE_UPLOADED,
+            event_type=AuditEventType.EVIDENCE_UPLOADED.value,
             payload={"file_name": file_name, "evidence_type": meta.evidence_type},
         )
     )
@@ -239,12 +239,12 @@ async def assign_counsel(
 
     audit_repo = AuditSQLRepository(session)
     await audit_repo.create(
-        build_audit_event(
+        AuditEventModel(
             tenant_id=tenant_id,
             actor_user_id=user_id,
             resource_type="counsel_assignment",
             resource_id=assignment.id,
-            event_type=AuditEventType.COUNSEL_ASSIGNED,
+            event_type=AuditEventType.COUNSEL_ASSIGNED.value,
             payload={"firm_name": data.firm_name},
         )
     )
@@ -277,12 +277,12 @@ async def end_counsel_assignment(
 
     audit_repo = AuditSQLRepository(session)
     await audit_repo.create(
-        build_audit_event(
+        AuditEventModel(
             tenant_id=tenant_id,
             actor_user_id=user_id,
             resource_type="counsel_assignment",
             resource_id=assignment_id,
-            event_type=AuditEventType.COUNSEL_ENDED,
+            event_type=AuditEventType.COUNSEL_ENDED.value,
         )
     )
     return assignment
@@ -387,12 +387,12 @@ async def acknowledge_alert(
 
     audit_repo = AuditSQLRepository(session)
     await audit_repo.create(
-        build_audit_event(
+        AuditEventModel(
             tenant_id=tenant_id,
             actor_user_id=user_id,
             resource_type="alert",
             resource_id=alert_id,
-            event_type=AuditEventType.ALERT_ACKNOWLEDGED,
+            event_type=AuditEventType.ALERT_ACKNOWLEDGED.value,
         )
     )
     return alert
